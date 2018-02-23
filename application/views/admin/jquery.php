@@ -18,11 +18,36 @@
 <script src="<?=public_url('admin')?>/assets/js/demo.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
 		// Javascript method's body can be found in assets/js/demos.js
 		demo.initDashboardPageCharts();
 
+
 	});
+	$(document).ready(function () {
+		$("select[name='province']").change(function () {
+			//alert("------------------");
+			var province = $(this).val();
+			alert("<?=base_url()?>" + "index.php/admin/table/form/ajax");
+			jQuery.ajax({
+				type: "POST",
+				url: "<?=base_url()?>" + "index.php/admin/table/form/ajax",
+				dataType: "json",
+				data: {prov: province},
+				success: function (res) {
+					//alert("--------");
+					var state = $('select[name="state"]');
+					state.empty();
+					state.append('<option value="0" selected="selected">Choose..</option>');
+					if (res) {
+						//alert("-------");
+						$.each(res, function (key, value) {
+							state.append('<option value="'+ key +'">'+ value +'</option>');
+						});
+					}
+				}
+			});
+		});
+	})
 </script>
 
 </html>

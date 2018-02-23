@@ -32,9 +32,16 @@ class Table extends CI_Controller
 	}
 
 	public function form() {
+		$this->load->model('province');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		$data['content'] = $this->load->view('admin/table/form', '', true);
+		$tmp = $this->province->getName();
+		$option = array('');
+		foreach ($tmp as $key => $value) {
+			array_push($option, $value['name']);
+		}
+		$tmp['options'] = $option;
+		$data['content'] = $this->load->view('admin/table/form', $tmp, true);
 		$data['sidebar'] = $this->load->view('admin/left-sidebar', '', true);
 		$data['navbar'] = $this->load->view('admin/navbar', '', true);
 		$data['footer'] = $this->load->view('admin/footer', '', true);
@@ -58,6 +65,11 @@ class Table extends CI_Controller
 				'field' => 'email',
 				'label' => 'Email',
 				'rules' => 'required|valid_email|is_unique[users.email]'
+			),
+			array(
+				'field' => 'address',
+				'label' => 'Address',
+				'rules' => 'required|valid_email|is_unique[users.email]'
 			)
 		);
 		$this->form_validation->set_rules($config);
@@ -69,6 +81,20 @@ class Table extends CI_Controller
 		else {
 			echo 'success';
 		}
+	}
+
+	public function ajax_call() {
+		$this->load->library('ajax');
+		//echo $as;
+		$province = $_POST['prov'];
+		//echo "<script type='text/javascript'>alert('$province');</script>";
+		$this->load->model('state');
+		$this->db->select('provinceid');
+		$this->db->where('name', "$province");
+		$query = $this->db->get("province");
+		$tmp = $query->result_array();
+		$data = $this->state->getName($tmp[0]);
+		$this->ajax->output_ajax($data);
 	}
 
 	public function username_check($user) {

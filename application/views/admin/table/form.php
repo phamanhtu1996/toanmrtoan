@@ -19,16 +19,25 @@ $email = array(
 );
 $add = array(
 	'name' => 'address',
-	'size' => 1000,
-	'class' => 'form_control',
-	'placeholder' => 'Apartment, studio, or floor'
+	'size' => 255,
+	'class' => 'form-control',
+	'placeholder' => 'Apartment, studio or floor'
 );
 $province = array(
 	'name' => 'province',
-	'size' => 50,
-	'class' => 'form_control',
-	'options' => $options
+//	'size' => 50,
+	'class' => 'form-control',
+	'options' => $options,
+	'selected' => 0
+);
+
+$state = array(
+	'name' => 'state',
+	'class' => 'form-control',
+	'options' => array('Choose..'),
+	'selected' => 0
 )
+
 ?>
 
 <div class="content">
@@ -61,21 +70,25 @@ $province = array(
 							</div>
 							<div class="form-group row">
 								<div class="col-md-12">
-								<label for="inputAddress2">Address</label>
+								<label for="Address">Address</label>
 								<?=form_input($add)?>
 								</div>
 							</div>
 							<div class="form-group row">
 								<div class="form-group col-md-6">
 									<label for="inputCity">City</label>
-									<?=form_dropdown()?>
+									<?=form_dropdown($province)?>
+<!--									<select class="form-control" id="exampleFormControlSelect1">-->
+<!--										<option>1</option>-->
+<!--										<option>2</option>-->
+<!--										<option>3</option>-->
+<!--										<option>4</option>-->
+<!--										<option>5</option>-->
+<!--									</select>-->
 								</div>
 								<div class="form-group col-md-4">
 									<label for="inputState">State</label>
-									<select id="inputState" class="form-control">
-										<option selected>Choose...</option>
-										<option>...</option>
-									</select>
+									<?=form_dropdown($state)?>
 								</div>
 								<div class="form-group col-md-2">
 									<label for="inputZip">Zip</label>

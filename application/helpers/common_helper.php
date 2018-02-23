@@ -9,3 +9,9 @@
 function public_url($str = '') {
 	return base_url('public/'.$str);
 }
+
+function _print($o) {
+	echo '<pre>';
+	print_r($o);
+	echo '</pre>';
+}
